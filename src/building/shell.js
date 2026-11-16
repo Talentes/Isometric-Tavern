@@ -3,7 +3,7 @@ import { materials } from '../core/materials.js';
 import { boxFromTo, beam, mergedMesh, instanced, box } from '../core/geo.js';
 import { rand, randRange } from '../core/textures.js';
 import {
-  X0, X1, Z0, Z1, WALL_T, WALL_H, STONE_H, LOFT_Y, LOFT_EDGE, GROUND_Y, SLAB, WINDOWS,
+  X0, X1, Z0, Z1, WALL_T, WALL_H, STONE_H, LOFT_Y, LOFT_EDGE, LOFT_X1, GROUND_Y, SLAB, WINDOWS,
 } from './layout.js';
 
 /** Foundation, floors, the two remaining walls and the heavy oak frame. */
@@ -53,14 +53,15 @@ export function buildShell(ctx) {
   oak.push(beam(wallPointArr('west', -1.9, LOFT_Y, 0), wallPointArr('west', -0.25, WALL_H - 0.3, 0), 0.2, 0.2));
   oak.push(beam(wallPointArr('west', 3.7, WALL_H - 0.3, 0), wallPointArr('west', Z1 - 0.2, LOFT_Y, 0), 0.2, 0.2));
   // north wall (u = x)
-  for (const x of [X0 + 0.12, -3.0, 0.5, 3.8, X1 - 0.12]) post('north', x, STONE_H, WALL_H);
+  for (const x of [X0 + 0.12, -4.4, -1.4, LOFT_X1, 5.3, X1 - 0.12]) post('north', x, STONE_H, WALL_H);
   rail('north', X0, X1, STONE_H + 0.1, 0.26);
   rail('north', X0, X1, LOFT_Y - 0.15, 0.3);
   rail('north', X0, X1, WALL_H - 0.15, 0.3);
-  oak.push(beam(wallPointArr('north', -2.9, LOFT_Y, 0), wallPointArr('north', 0.4, WALL_H - 0.3, 0), 0.2, 0.2));
-  oak.push(beam(wallPointArr('north', 3.9, WALL_H - 0.3, 0), wallPointArr('north', X1 - 0.2, LOFT_Y, 0), 0.2, 0.2));
-  oak.push(beam(wallPointArr('north', 0.6, STONE_H + 0.2, 0), wallPointArr('north', 3.7, LOFT_Y - 0.3, 0), 0.2, 0.2));
-  oak.push(beam(wallPointArr('north', 3.9, LOFT_Y - 0.3, 0), wallPointArr('north', X1 - 0.2, STONE_H + 0.2, 0), 0.2, 0.2));
+  const brace = (wall, u0, y0, u1, y1) => oak.push(beam(wallPointArr(wall, u0, y0, 0), wallPointArr(wall, u1, y1, 0), 0.2, 0.2));
+  brace('north', X0 + 0.2, STONE_H + 0.2, -4.5, LOFT_Y - 0.3);
+  brace('north', -1.3, LOFT_Y, LOFT_X1 - 0.1, WALL_H - 0.3);
+  brace('north', 5.4, WALL_H - 0.3, X1 - 0.2, LOFT_Y);
+  brace('north', 5.4, STONE_H + 0.2, X1 - 0.2, LOFT_Y - 0.3);
   // corner post (full height, through the wall thickness) and cut-edge posts
   oak.push(boxFromTo(X0 - WALL_T - 0.05, STONE_H, Z0 - WALL_T - 0.05, X0 - WALL_T + 0.3, WALL_H + 0.05, Z0 - WALL_T + 0.3));
   oak.push(boxFromTo(X0 - WALL_T - 0.04, STONE_H, Z1 - 0.3, X0 + 0.04, WALL_H + 0.05, Z1 + 0.02));
@@ -70,28 +71,29 @@ export function buildShell(ctx) {
   oak.push(boxFromTo(X0, WALL_H, Z0 - WALL_T - 0.05, X1 + 0.02, WALL_H + 0.3, Z0 + 0.05));
 
   // --- Loft structure --------------------------------------------------
-  oak.push(boxFromTo(X0, LOFT_Y - 0.62, LOFT_EDGE - 0.2, X1, LOFT_Y - 0.1, LOFT_EDGE + 0.18)); // edge beam
-  for (let x = X0 + 1.2; x < X1; x += 1.4) {
+  oak.push(boxFromTo(X0, LOFT_Y - 0.62, LOFT_EDGE - 0.2, LOFT_X1 + 0.18, LOFT_Y - 0.1, LOFT_EDGE + 0.18)); // edge beam
+  oak.push(boxFromTo(LOFT_X1 - 0.2, LOFT_Y - 0.62, Z0, LOFT_X1 + 0.18, LOFT_Y - 0.1, LOFT_EDGE)); // end beam
+  for (let x = X0 + 1.2; x < LOFT_X1 - 0.3; x += 1.4) {
     oak.push(boxFromTo(x - 0.1, LOFT_Y - 0.42, Z0, x + 0.1, LOFT_Y - 0.1, LOFT_EDGE)); // joists
   }
-  for (const x of [-3.6, 0.6]) {
+  for (const x of [-3.6, LOFT_X1]) {
     oak.push(boxFromTo(x - 0.17, 0, LOFT_EDGE - 0.17, x + 0.17, LOFT_Y - 0.6, LOFT_EDGE + 0.17)); // posts
     oak.push(beam([x - 0.9, LOFT_Y - 0.6, LOFT_EDGE], [x, LOFT_Y - 1.4, LOFT_EDGE], 0.16, 0.16));
-    oak.push(beam([x + 0.9, LOFT_Y - 0.6, LOFT_EDGE], [x, LOFT_Y - 1.4, LOFT_EDGE], 0.16, 0.16));
+    if (x < 0) oak.push(beam([x + 0.9, LOFT_Y - 0.6, LOFT_EDGE], [x, LOFT_Y - 1.4, LOFT_EDGE], 0.16, 0.16));
   }
 
   // --- Roof tie beams spanning the open hall ---------------------------
-  oak.push(boxFromTo(X0, 6.0, -1.08, X1 + 0.3, 6.38, -0.72));
-  oak.push(boxFromTo(X0, 6.0, 4.12, X1 + 0.3, 6.38, 4.48));
-  oak.push(boxFromTo(0.62, 5.62, Z0, 0.98, 6.0, Z1 + 0.3));
+  oak.push(boxFromTo(X0, 6.0, -1.18, X1 + 0.3, 6.38, -0.82));
+  oak.push(boxFromTo(-5.85, 6.0, 2.02, X1 + 0.3, 6.38, 2.38));
+  oak.push(boxFromTo(2.82, 5.62, Z0, 3.18, 6.0, -0.82));
   group.add(mergedMesh(oak, m.oak));
 
   // Loft deck sub-floor (solid, so it blocks light properly)
-  group.add(mergedMesh([boxFromTo(X0, LOFT_Y - 0.14, Z0, X1, LOFT_Y - 0.06, LOFT_EDGE + 0.15)], m.plank));
+  group.add(mergedMesh([boxFromTo(X0, LOFT_Y - 0.14, Z0, LOFT_X1, LOFT_Y - 0.06, LOFT_EDGE + 0.15)], m.plank));
 
   // --- Floor planks (instanced) ----------------------------------------
   group.add(plankFloor(X0, X1, Z0, Z1, 0, m.plank));
-  group.add(plankFloor(X0, X1, Z0, LOFT_EDGE + 0.15, LOFT_Y, m.plank));
+  group.add(plankFloor(X0, LOFT_X1, Z0, LOFT_EDGE + 0.15, LOFT_Y, m.plank));
 
   ctx.scene.add(group);
   return group;
