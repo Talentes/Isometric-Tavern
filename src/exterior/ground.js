@@ -51,7 +51,7 @@ export function buildGround(ctx, envMap) {
   // Puddles: mirror-like physical surface + an additive overlay for ripples
   // and the stretched reflection of the street lantern.
   const puddleMat = new THREE.MeshPhysicalMaterial({
-    color: '#05070d', roughness: 0.08, metalness: 0, ior: 1.8, specularIntensity: 1,
+    color: '#05070d', roughness: 0.2, metalness: 0, ior: 1.8, specularIntensity: 0.3,
     specularColor: new THREE.Color(1.6, 1.6, 1.6), envMap, envMapIntensity: 1.0,
   });
   const overlayMat = createPuddleOverlay();
@@ -148,13 +148,13 @@ function createPuddleOverlay() {
         float across = dot(d, vec2(-toCam.y, toCam.x));
         across += (vnoise(vec2(along * 3.0, uTime * 4.0)) - 0.5) * 0.12 + rip * 0.03;
         float streak = exp(-across * across / 0.02) * exp(-along * along / 0.9);
-        vec3 col = uLightColor * streak * 1.6 * uLightLevel;
-        col += vec3(0.35, 0.42, 0.55) * rip * 0.35;
+        vec3 col = uLightColor * streak * 0.45 * uLightLevel;
+        col += vec3(0.35, 0.42, 0.55) * rip * 0.08;
         // warm interior glow spilling out of the open tavern onto nearby water
         vec2 q = max(max(uBuilding.xy - p, p - uBuilding.zw), 0.0);
         float spill = exp(-length(q) * 0.45);
         float shimmer = 0.8 + 0.2 * vnoise(p * 1.7 + uTime * 0.6) + rip * 0.4;
-        col += uWarm * spill * 0.09 * uWarmLevel * shimmer;
+        col += uWarm * spill * 0.035 * uWarmLevel * shimmer;
         gl_FragColor = vec4(col, 1.0);
       }`,
   });

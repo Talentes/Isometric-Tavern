@@ -54,20 +54,21 @@ export function buildHearth(ctx) {
   ]), coalMat);
   ctx.scene.add(coals);
 
-  // Crane with hanging cauldron
+  // Crane with hanging cauldron, swung a little aside so the flames show
+  const cxp = fx + 0.08, czp = fz - 0.5;
   P.iron.push(cyl(0.035, 0.035, 2.0, 6, [back + 0.12, 1.1, o0 + 0.15]));
-  P.iron.push(beam([back + 0.12, 1.95, o0 + 0.15], [fx + 0.02, 1.95, fz], 0.06, 0.06));
-  P.iron.push(beam([back + 0.12, 1.4, o0 + 0.15], [fx - 0.2, 1.95, fz - 0.3], 0.04, 0.04));
-  P.iron.push(cyl(0.015, 0.015, 0.55, 4, [fx + 0.02, 1.68, fz]));
+  P.iron.push(beam([back + 0.12, 1.95, o0 + 0.15], [cxp, 1.95, czp], 0.06, 0.06));
+  P.iron.push(beam([back + 0.12, 1.4, o0 + 0.15], [cxp - 0.2, 1.95, czp - 0.2], 0.04, 0.04));
+  P.iron.push(cyl(0.015, 0.015, 0.55, 4, [cxp, 1.68, czp]));
   const cauldron = [
-    xf(new THREE.SphereGeometry(0.42, 18, 10, 0, Math.PI * 2, Math.PI * 0.42, Math.PI * 0.58), [fx + 0.02, 1.08, fz]),
-    xf(new THREE.TorusGeometry(0.38, 0.03, 6, 20), [fx + 0.02, 1.15, fz], [Math.PI / 2, 0, 0]),
-    xf(new THREE.TorusGeometry(0.38, 0.015, 4, 16, Math.PI), [fx + 0.02, 1.15, fz], [0, Math.PI / 2, 0]),
+    xf(new THREE.SphereGeometry(0.42, 18, 10, 0, Math.PI * 2, Math.PI * 0.42, Math.PI * 0.58), [cxp, 1.08, czp]),
+    xf(new THREE.TorusGeometry(0.38, 0.03, 6, 20), [cxp, 1.15, czp], [Math.PI / 2, 0, 0]),
+    xf(new THREE.TorusGeometry(0.38, 0.015, 4, 16, Math.PI), [cxp, 1.15, czp], [0, Math.PI / 2, 0]),
   ];
   P.iron.push(...cauldron);
   const stew = new THREE.Mesh(new THREE.CircleGeometry(0.36, 16), new THREE.MeshStandardMaterial({ color: '#4a3018', roughness: 0.3 }));
   stew.rotation.x = -Math.PI / 2;
-  stew.position.set(fx + 0.02, 1.1, fz);
+  stew.position.set(cxp, 1.1, czp);
   ctx.scene.add(stew);
 
   // Stacked firewood beside the breast

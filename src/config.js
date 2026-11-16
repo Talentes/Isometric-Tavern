@@ -30,8 +30,9 @@ export const PALETTE = {
 export const CONFIG = {
   // Rendering
   maxPixelRatio: 2,
-  msaaSamples: 4,
-  exposure: 1.0,
+  msaaSamples: 4, // at device pixel ratio >= 2 the cheaper msaaSamplesHiDPI is used
+  msaaSamplesHiDPI: 2,
+  exposure: 1.1,
   shadowMapSize: { fire: 1024, moon: 2048 },
 
   // Camera / controls
@@ -55,15 +56,16 @@ export const CONFIG = {
     hemiGround: '#1a1208',
     hemiIntensity: 0.45,
     moonColor: PALETTE.moon,
-    moonIntensity: 1.6,
+    moonIntensity: 2.3,
     fireColor: PALETTE.fireCore,
-    fireIntensity: 60,
-    fireDistance: 22,
+    fireIntensity: 24,
+    fireDistance: 24,
     candleColor: PALETTE.candle,
-    candleIntensity: 5,
-    chandelierIntensity: 24,
-    lanternIntensity: 11,
-    streetLanternIntensity: 22,
+    candleIntensity: 3,
+    chandelierIntensity: 14,
+    lanternIntensity: 7.5,
+    streetLanternIntensity: 11,
+    decay: 1.5, // softer than inverse-square so nearby surfaces don't blow out
   },
 
   flicker: {
@@ -88,7 +90,7 @@ export const CONFIG = {
     length: 0.75,
     width: 0.04,
     wind: 0.18,
-    opacity: 0.3,
+    opacity: 0.11,
   },
 
   particles: { embers: 90, smoke: 46 },

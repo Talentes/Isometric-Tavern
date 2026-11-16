@@ -153,16 +153,17 @@ function buildSky(ctx) {
       uniform float uTime; uniform vec3 uNight, uFog, uMoon; uniform vec2 uMoonPos; varying vec2 vP;
       ${NOISE_GLSL}
       void main(){
-        vec3 col = mix(uFog, uNight, smoothstep(-6.0, 14.0, vP.y));
+        vec3 col = mix(uFog * 0.75, uNight, smoothstep(-5.0, 12.0, vP.y));
+        col = mix(uNight * 0.8, col, smoothstep(-16.0, -6.0, vP.y));
         float dm = length(vP - uMoonPos);
         float glow = exp(-dm * 0.25) * 0.35 + exp(-dm * 1.1) * 0.45;
         float disc = smoothstep(0.8, 0.7, dm);
         vec2 cp = vP * vec2(0.09, 0.2) + vec2(uTime * 0.012, 0.0);
         float cl = fbm(cp) * 0.65 + fbm(cp * 2.3 + 4.0) * 0.35;
         float cover = smoothstep(0.38, 0.68, cl) * smoothstep(-4.0, 6.0, vP.y);
-        vec3 moon = uMoon * (glow + disc * 0.9);
+        vec3 moon = uMoon * (glow * 0.6 + disc * 0.8);
         col += moon * (1.0 - cover * 0.85);
-        vec3 cloudCol = mix(vec3(0.05, 0.07, 0.13), uMoon * 0.45, exp(-dm * 0.18));
+        vec3 cloudCol = mix(vec3(0.012, 0.016, 0.035), uMoon * 0.25, exp(-dm * 0.2));
         col = mix(col, cloudCol, cover * 0.75);
         gl_FragColor = vec4(col, 1.0);
       }`,

@@ -52,10 +52,10 @@ const fragmentShader = /* glsl */ `
 
   // Moonlit street seen from inside: sky gradient, rooftops, a warm far window.
   vec3 outsideView(vec2 p) {
-    vec3 c = mix(uCold * 0.6, uCold * 1.5, smoothstep(-0.2, 1.3, p.y));
+    vec3 c = mix(uCold * 0.25, uCold * 0.7, smoothstep(-0.2, 1.3, p.y));
     float roof = 0.35 + 0.18 * sin(p.x * 3.1 + 1.0) + 0.12 * step(0.5, fract(p.x * 1.3));
     c = mix(c, uCold * 0.18, smoothstep(roof + 0.03, roof - 0.03, p.y));
-    c += uMoon * exp(-length(p - vec2(0.2, 1.2)) * 3.0) * 0.8;
+    c += uMoon * exp(-length(p - vec2(0.2, 1.2)) * 3.0) * 0.4;
     c += vec3(1.0, 0.6, 0.25) * smoothstep(0.06, 0.0, length(p - vec2(0.62, 0.22))) * 0.35;
     return c;
   }

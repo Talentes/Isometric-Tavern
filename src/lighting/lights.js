@@ -17,7 +17,7 @@ export function flicker(t, phase, speed = 1) {
 }
 
 function point(color, intensity, distance, pos) {
-  const l = new THREE.PointLight(color, intensity, distance, 2);
+  const l = new THREE.PointLight(color, intensity, distance, L.decay);
   l.position.set(...pos);
   return l;
 }
@@ -34,7 +34,7 @@ export function buildLights(ctx) {
 
   // Moon: cold key light from behind the back walls, through the windows.
   const moon = new THREE.DirectionalLight(L.moonColor, L.moonIntensity);
-  moon.position.copy(target).add(new THREE.Vector3(-21, 27, -3));
+  moon.position.copy(target).add(new THREE.Vector3(-26, 18, -2));
   moon.target.position.copy(target);
   moon.castShadow = true;
   moon.shadow.mapSize.setScalar(CONFIG.shadowMapSize.moon);
@@ -56,7 +56,7 @@ export function buildLights(ctx) {
   fire.shadow.radius = 3;
   scene.add(fire);
   // Small fill inside the firebox to light the cauldron and soot.
-  const ember = point(L.fireColor, 6, 3.2, [HEARTH.fire[0], 0.6, HEARTH.fire[2]]);
+  const ember = point(L.fireColor, 4, 3.2, [HEARTH.fire[0], 0.6, HEARTH.fire[2]]);
   scene.add(ember);
 
   const fireHigh = new THREE.Color(CONFIG.lights.fireColor);
@@ -78,14 +78,14 @@ export function buildLights(ctx) {
   add([TABLES.loft.x + 0.2, LOFT_Y + TABLES.loft.h + 0.45, TABLES.loft.z + 0.1], L.candleIntensity, 7);
   add([3.1, BAR.h + 0.5, BAR.z0 + 0.4], L.candleIntensity, 6);
 
-  ctx.lights = { moon, fire, ember, small, fireLevel: 1 };
+  ctx.lights = { moon, fire, ember, small, fireLevel: 1, moonDir: moon.target.position.clone().sub(moon.position).normalize() };
 
   ctx.updaters.push((t) => {
     const n = flicker(t, 0.0, 1.0);
     const n2 = flicker(t, 4.1, 1.7);
     const level = 1 + F.fireAmount * (0.7 * n + 0.3 * n2);
     fire.intensity = L.fireIntensity * level;
-    ember.intensity = 6 * (1 + 0.4 * n2);
+    ember.intensity = 4 * (1 + 0.4 * n2);
     fireCol.copy(fireLow).lerp(fireHigh, THREE.MathUtils.clamp(0.55 + n * 0.45, 0, 1));
     fire.color.copy(fireCol);
     const j = F.fireJitter;

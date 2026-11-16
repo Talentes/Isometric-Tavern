@@ -25,7 +25,7 @@ export function buildStreetProps(ctx, envMap) {
   const lx = px - 0.95, lz = pz - 0.95, ly = g + 3.55;
   P.iron.push(beam([lx, g + 4.35, lz], [lx, ly + 0.55, lz], 0.02, 0.02));
   lanternParts([lx, ly, lz], 1.25, P.iron, glass, ctx.flames);
-  const post = new THREE.PointLight(CONFIG.lights.candleColor, CONFIG.lights.streetLanternIntensity, 15, 2);
+  const post = new THREE.PointLight(CONFIG.lights.candleColor, CONFIG.lights.streetLanternIntensity, 16, CONFIG.lights.decay);
   post.position.set(lx, ly + 0.35, lz);
   ctx.scene.add(post);
   ctx.anchors.streetLamp = post.position.clone();

@@ -17,7 +17,7 @@ export function createNightEnvironment(renderer) {
         uTop: { value: new THREE.Color('#03050c') },
         uHorizon: { value: new THREE.Color('#1a2644') },
         uMoon: { value: new THREE.Color(PALETTE.moonGlow) },
-        uMoonDir: { value: new THREE.Vector3(-0.61, 0.78, -0.09).normalize() },
+        uMoonDir: { value: new THREE.Vector3(-0.82, 0.57, -0.06).normalize() },
       },
       vertexShader: `varying vec3 vDir; void main(){ vDir = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
       fragmentShader: `

@@ -84,10 +84,10 @@ export function buildFire(ctx) {
     [-0.05, 0.22, 0.7, 1.3], [0.15, 0.65, 0.5, 0.7], [0.1, -0.7, 0.5, 0.65], [0.2, 0.0, 0.55, 0.8],
   ];
   tongues.forEach(([dx, dz, w, h], i) => {
-    items.push({ p: [fx + dx, fy - 0.12, fz + dz], s: [w, h], phase: i * 3.7, turb: 1.0, intensity: 3.2 });
+    items.push({ p: [fx + dx, fy - 0.12, fz + dz], s: [w, h], phase: i * 3.7, turb: 1.0, intensity: 1.3 });
   });
   for (const f of ctx.flames) {
-    items.push({ p: f.pos.map((v, i) => (i === 1 ? v - f.size * 0.9 : v)), s: [f.size * 1.3, f.size * 3.2], phase: f.phase, turb: 0.12, intensity: 2.6 });
+    items.push({ p: f.pos.map((v, i) => (i === 1 ? v - f.size * 0.9 : v)), s: [f.size * 1.3, f.size * 3.2], phase: f.phase, turb: 0.12, intensity: 2.0 });
   }
 
   const geo = new THREE.PlaneGeometry(1, 1);
