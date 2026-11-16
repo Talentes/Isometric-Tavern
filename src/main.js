@@ -7,6 +7,8 @@ import { buildTableware } from './props/tableware.js';
 import { buildBarrels } from './props/barrels.js';
 import { buildHearth } from './props/hearth.js';
 import { buildDecor } from './props/decor.js';
+import { buildLights } from './lighting/lights.js';
+import { buildFire } from './effects/fire.js';
 
 const ctx = createSetup(document.getElementById('app'));
 
@@ -18,11 +20,8 @@ buildBarrels(ctx);
 buildHearth(ctx);
 buildDecor(ctx);
 
-// Temporary fill light until the lighting module exists.
-ctx.scene.add(new THREE.HemisphereLight('#8090c0', '#302010', 1.2));
-const sun = new THREE.DirectionalLight('#ffffff', 1.5);
-sun.position.set(10, 20, 8);
-ctx.scene.add(sun);
+buildLights(ctx);
+buildFire(ctx);
 
 window.__tavernInfo = () => ({ calls: ctx.renderer.info.render.calls, tris: ctx.renderer.info.render.triangles, flames: ctx.flames.length });
 
