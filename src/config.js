@@ -83,12 +83,12 @@ export const CONFIG = {
 
   // Weather
   rain: {
-    count: 5000,
+    count: 4500,
     speed: 22,
-    length: 0.55,
-    width: 0.018,
+    length: 0.75,
+    width: 0.04,
     wind: 0.18,
-    opacity: 0.32,
+    opacity: 0.3,
   },
 
   particles: { embers: 90, smoke: 46 },

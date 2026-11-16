@@ -24,7 +24,11 @@ export function createSetup(container) {
 
   const cam = CONFIG.camera;
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 400);
-  const target = new THREE.Vector3(...cam.target);
+  // Optional debug framing: ?zoom=3&look=x,y,z
+  const params = new URLSearchParams(location.search);
+  const look = params.get('look')?.split(',').map(Number);
+  const target = new THREE.Vector3(...(look?.length === 3 ? look : cam.target));
+  camera.zoom = Number(params.get('zoom')) || 1;
   const offset = new THREE.Vector3().setFromSphericalCoords(cam.distance, ISO_POLAR, ISO_AZIMUTH);
   camera.position.copy(target).add(offset);
   camera.lookAt(target);
@@ -36,8 +40,8 @@ export function createSetup(container) {
   controls.enablePan = false;
   controls.rotateSpeed = 0.4;
   controls.zoomSpeed = 0.8;
-  controls.minZoom = cam.minZoom;
-  controls.maxZoom = cam.maxZoom;
+  controls.minZoom = Math.min(cam.minZoom, camera.zoom);
+  controls.maxZoom = Math.max(cam.maxZoom, camera.zoom);
   controls.minAzimuthAngle = ISO_AZIMUTH - cam.azimuthRange * DEG;
   controls.maxAzimuthAngle = ISO_AZIMUTH + cam.azimuthRange * DEG;
   controls.minPolarAngle = ISO_POLAR - cam.polarRange * DEG;

@@ -13,6 +13,7 @@ import { createNightEnvironment } from './exterior/envmap.js';
 import { buildGround } from './exterior/ground.js';
 import { buildStreetProps } from './exterior/streetProps.js';
 import { buildSkyline } from './exterior/skyline.js';
+import { buildRain } from './effects/rain.js';
 
 const ctx = createSetup(document.getElementById('app'));
 
@@ -29,8 +30,10 @@ const envMap = createNightEnvironment(ctx.renderer);
 buildGround(ctx, envMap);
 buildStreetProps(ctx, envMap);
 buildSkyline(ctx);
+buildRain(ctx);
 buildFire(ctx);
 
+window.__tavern = ctx;
 window.__tavernInfo = () => ({ calls: ctx.renderer.info.render.calls, tris: ctx.renderer.info.render.triangles, flames: ctx.flames.length });
 
 const timer = new THREE.Timer();

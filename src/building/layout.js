@@ -28,10 +28,10 @@ export const STAIRS = { x0: 0.25, x1: 1.42, zBottom: 1.3, zTop: LOFT_EDGE, steps
 
 // Windows: wall 'west' uses u = z, wall 'north' uses u = x.
 export const WINDOWS = [
-  { wall: 'west', u0: 3.95, u1: 5.05, y0: 1.5, y1: 2.75 },
-  { wall: 'west', u0: -4.5, u1: -3.5, y0: 4.6, y1: 5.75 },
-  { wall: 'north', u0: -3.6, u1: -2.5, y0: 4.6, y1: 5.75 },
-  { wall: 'north', u0: 3.6, u1: 4.7, y0: 4.45, y1: 5.7 },
+  { wall: 'west', u0: 3.85, u1: 5.15, y0: 1.45, y1: 2.85 },
+  { wall: 'west', u0: -4.65, u1: -3.4, y0: 4.5, y1: 5.85 },
+  { wall: 'north', u0: -3.75, u1: -2.45, y0: 4.5, y1: 5.85 },
+  { wall: 'north', u0: 3.5, u1: 4.8, y0: 4.4, y1: 5.8 },
 ];
 
 // Furniture spots shared by furniture, tableware and lighting.

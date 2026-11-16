@@ -48,6 +48,9 @@ export function buildWindows(ctx) {
   }
   group.add(mergedMesh(frames, m.oak));
   ctx.scene.add(group);
-  ctx.updaters.push((t) => (glassMat.uniforms.uTime.value = t));
+  ctx.updaters.push((t) => {
+    glassMat.uniforms.uTime.value = t;
+    glassMat.uniforms.uWarmLevel.value = ctx.lights.fireLevel ?? 1;
+  });
   return group;
 }

@@ -28,6 +28,7 @@ export function buildStreetProps(ctx, envMap) {
   const post = new THREE.PointLight(CONFIG.lights.candleColor, CONFIG.lights.streetLanternIntensity, 15, 2);
   post.position.set(lx, ly + 0.35, lz);
   ctx.scene.add(post);
+  ctx.anchors.streetLamp = post.position.clone();
 
   // --- Stone water trough -------------------------------------------------
   const tx = -9.9, tz = 7.4, tw = 1.25, td = 0.42, th = 0.8;
