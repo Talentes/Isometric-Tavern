@@ -34,7 +34,7 @@ export function buildLights(ctx) {
 
   // Moon: cold key light from behind the back walls, through the windows.
   const moon = new THREE.DirectionalLight(L.moonColor, L.moonIntensity);
-  moon.position.copy(target).add(new THREE.Vector3(-17, 24, -11));
+  moon.position.copy(target).add(new THREE.Vector3(-21, 27, -3));
   moon.target.position.copy(target);
   moon.castShadow = true;
   moon.shadow.mapSize.setScalar(CONFIG.shadowMapSize.moon);

@@ -9,6 +9,10 @@ import { buildHearth } from './props/hearth.js';
 import { buildDecor } from './props/decor.js';
 import { buildLights } from './lighting/lights.js';
 import { buildFire } from './effects/fire.js';
+import { createNightEnvironment } from './exterior/envmap.js';
+import { buildGround } from './exterior/ground.js';
+import { buildStreetProps } from './exterior/streetProps.js';
+import { buildSkyline } from './exterior/skyline.js';
 
 const ctx = createSetup(document.getElementById('app'));
 
@@ -21,6 +25,10 @@ buildHearth(ctx);
 buildDecor(ctx);
 
 buildLights(ctx);
+const envMap = createNightEnvironment(ctx.renderer);
+buildGround(ctx, envMap);
+buildStreetProps(ctx, envMap);
+buildSkyline(ctx);
 buildFire(ctx);
 
 window.__tavernInfo = () => ({ calls: ctx.renderer.info.render.calls, tris: ctx.renderer.info.render.triangles, flames: ctx.flames.length });

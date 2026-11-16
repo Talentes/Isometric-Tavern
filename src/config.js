@@ -3,7 +3,7 @@
 
 export const PALETTE = {
   night: '#070b1a',
-  fog: '#0d1426',
+  fog: '#141c33',
   moon: '#8fa8d8',
   moonGlow: '#c9d6f0',
   fireCore: '#ff8a3d',
@@ -22,7 +22,7 @@ export const PALETTE = {
   iron: '#2a2a2e',
   rug: '#7a2a22',
   rugTrim: '#c09040',
-  silhouette: '#121828',
+  silhouette: '#04060d',
   wax: '#e8dcc0',
   cloth: '#8a7a5a',
 };
