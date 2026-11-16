@@ -66,7 +66,10 @@ export function buildStreetProps(ctx, envMap) {
   const sign = new THREE.Group();
   sign.position.set(bx0 - 1.15, by - 0.04, sz);
   const signTex = signTexture();
-  const faceMat = new THREE.MeshStandardMaterial({ map: signTex, roughness: 0.7 });
+  // faintly lit by the warm spill from the window below, so the emblem reads at night
+  const faceMat = new THREE.MeshStandardMaterial({
+    map: signTex, roughness: 0.7, emissiveMap: signTex, emissive: '#ffb070', emissiveIntensity: 0.22,
+  });
   const board = new THREE.Mesh(new THREE.BoxGeometry(1.3, 1.0, 0.07), [m.oak, m.oak, m.oak, m.oak, faceMat, faceMat]);
   board.position.y = -0.82;
   board.castShadow = true;
