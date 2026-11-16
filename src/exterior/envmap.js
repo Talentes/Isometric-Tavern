@@ -24,7 +24,7 @@ export function createNightEnvironment(renderer) {
         uniform vec3 uTop, uHorizon, uMoon, uMoonDir; varying vec3 vDir;
         void main(){
           float h = clamp(vDir.y, -1.0, 1.0);
-          vec3 c = mix(uHorizon, uTop, smoothstep(0.0, 0.6, h));
+          vec3 c = mix(uHorizon * 1.3, uTop, smoothstep(0.1, 0.95, h));
           c = mix(c, uHorizon * 0.4, smoothstep(0.0, -0.4, h));
           float m = max(dot(normalize(vDir), uMoonDir), 0.0);
           c += uMoon * (pow(m, 60.0) * 2.0 + pow(m, 6.0) * 0.12);
@@ -45,7 +45,6 @@ export function createNightEnvironment(renderer) {
     scene.add(mesh);
   };
   warm(26, 10, [-24, 6, -24], PALETTE.windowGlow, 0.9);
-  warm(30, 14, [-24, 26, -24], PALETTE.windowGlow, 0.12);
   warm(10, 6, [-30, 12, -8], PALETTE.fireCore, 0.7);
   warm(4, 4, [20, 10, 20], PALETTE.candle, 2.0);
   warm(3, 3, [-10, 9, 30], PALETTE.candle, 1.2);

@@ -152,9 +152,9 @@ function createPuddleOverlay() {
         col += vec3(0.35, 0.42, 0.55) * rip * 0.35;
         // warm interior glow spilling out of the open tavern onto nearby water
         vec2 q = max(max(uBuilding.xy - p, p - uBuilding.zw), 0.0);
-        float spill = exp(-length(q) * 0.32);
+        float spill = exp(-length(q) * 0.45);
         float shimmer = 0.8 + 0.2 * vnoise(p * 1.7 + uTime * 0.6) + rip * 0.4;
-        col += uWarm * spill * 0.16 * uWarmLevel * shimmer;
+        col += uWarm * spill * 0.09 * uWarmLevel * shimmer;
         gl_FragColor = vec4(col, 1.0);
       }`,
   });
